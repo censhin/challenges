@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sys
-import time
 import pyrax
 
 pyrax.set_credential_file("/home/graft/.rackspace_cloud_credentials")
