@@ -4,12 +4,6 @@ import sys
 import time
 import pyrax
 
-def get_instance(inst_name):
-    inst = [inst for inst in cdb.list()
-            if inst_name in inst.name][0]
-    time.sleep(5)
-    return inst
-
 pyrax.set_credential_file("/home/graft/.rackspace_cloud_credentials")
 cdb = pyrax.cloud_databases
 flavors = cdb.list_flavors()
@@ -24,16 +18,11 @@ password = raw_input("Enter the user's password: ")
 
 flavor = [f for f in flavors if f_ram == f.ram][0]
 instance = cdb.create(inst_name, flavor=flavor.name, volume=volume)
+inst = [inst for inst in cdb.list()
+        if inst_name in inst.name][0]
 
-while True:
-    sys.stdout.flush()
-    inst = get_instance(instance.name)
-    if inst.status != 'ACTIVE':
-        sys.stdout.write("Status: %s\r" % inst.status)
-    else:
-        print "Status: %s" % inst.status
-        print "Creating the database and user."
-        break
-
+print "Waiting for the image to finish building."
+pyrax.utils.wait_until(inst, "status", ['ACTIVE', 'ERROR'], interval=20, attempts=40, verbose=True)
+print "\nCreating the database and user."
 db = instance.create_database(db_name)
 user = instance.create_user(name=user_name, password=password, database_names=[db])
