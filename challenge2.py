@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import pyrax
 
-pyrax.set_credential_file("/home/graft/.rackspace_cloud_credentials")
+creds_file = os.path.expanduser("~/.rackspace_cloud_credentials")
+pyrax.set_credential_file(creds_file)
 cs = pyrax.cloudservers
 server = cs.servers.list()
 flavor = server[0].flavor['id']

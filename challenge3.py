@@ -5,7 +5,8 @@ import sys
 import pyrax
 
 if len(sys.argv) == 3:
-    pyrax.set_credential_file("/home/graft/.rackspace_cloud_credentials")
+    creds_file = os.path.expanduser("~/.rackspace_cloud_credentials")
+    pyrax.set_credential_file(creds_file)
     cf = pyrax.cloudfiles
     if os.path.exists(sys.argv[1]):
         upload_key, total_bytes = cf.upload_folder(sys.argv[1], container=sys.argv[2])

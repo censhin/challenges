@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import pyrax
 
 if len(sys.argv) == 3:
-    pyrax.set_credential_file("/home/graft/.rackspace_cloud_credentials")
+    creds_file = os.path.expanduser("~/.rackspace_cloud_credentials")
+    pyrax.set_credential_file(creds_file)
     dns = pyrax.cloud_dns
     domain = [dom for dom in dns.list()
         if dom.name in sys.argv[1]][0]
