@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 """
-Challenge 3
+<--Challenge 3-->
+Write a script that accepts a directory as an argument as well as
+a container name. The script should upload the contents of the
+specified directory to the container (or create it if it doesn't
+exist). The script should handle errors appropriately.
+
 @author: Neill Johnson
 @date: March 16, 2013
 """

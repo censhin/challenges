@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 """
-Challenge 4
+<--Challenge 4-->
+Write a script that uses Cloud DNS to create a new A record when
+passed a FQDN and IP address as arguments.
+
 @author: Neill Johnson
 @date: March 16, 2013
 """

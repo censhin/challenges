@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 """
-Challenge 2
+<--Challenge 2-->
+Write a script that clones a server (takes an image and deploys
+the image as a new server).
+
 @author: Neill Johnson
 @date: March 15, 2013
 """
