@@ -10,6 +10,8 @@ fqdn pointing to the server's public IP.
 @date: March 29, 2013
 """
 
+import os
+import re
 import sys
 import pyrax
 
@@ -41,15 +43,16 @@ def create_server(name=sys.argv[1], image=sys.argv[2], flavor=sys.argv[3]):
     """
     cs = pyrax.cloudservers
     img = [img for img in cs.images.list() if image in img.name][0]
-    flav = [flav for flav in cs.flavors.list() if flav == flavor][0]
-    server = cs.servers.create(fqdn, img.id, flav.id)
+    flav = [flav for flav in cs.flavors.list() if int(flavor) == flav.ram][0]
+    server = cs.servers.create(name, img.id, flav.id)
     print "Creating server."
     pyrax.utils.wait_until(server, "status", ["ACTIVE", "ERROR"], interval=20, attempts=40, verbose=True)
     print
-    server_ip = server.networks["private"][0]
+    serv_data = cs.servers.get(server.id)
+    server_ip = serv_data.networks["private"][0]
     return server_ip
 
-def create_domain(fqdn=sys.argv[1], server_ip):
+def create_domain(server_ip, fqdn=sys.argv[1]):
     """
     Create a Cloud DNS domain with an A record pointing to the
     IP address of a server, and a CNAME record for the FQDN.
@@ -78,7 +81,7 @@ def main():
     server_ip = create_server()
     create_domain(server_ip)
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     if len(sys.argv) == 4:
         main()
     else:
