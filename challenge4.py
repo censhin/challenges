@@ -43,7 +43,7 @@ if len(sys.argv) == 3:
             break
         elif answer == "n":
             fqdn = raw_input("Enter the correct FQDN: ")
-            prefix = re.split("^[^\.]+.", fqdn)[0]
+            prefix = sys.argv[1].split(".")[0]
             name = re.split("^[^\.]+.", fqdn)[1]
         else:
             print "Enter y or n."
